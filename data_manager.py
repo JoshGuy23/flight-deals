@@ -31,7 +31,7 @@ class DataManager:
             put_endpoint = f"{self.endpoint}/{row_id}"
             changes = {
                 "price": {
-                    "IATA Code": iata_code
+                    "iataCode": iata_code
                 }
             }
             try:
@@ -39,3 +39,13 @@ class DataManager:
                 response.raise_for_status()
             except requests.HTTPError:
                 pass
+
+    def get_price(self, city):
+        data = self.get_rows()["prices"]
+        price = [entry["lowestPrice"] for entry in data if entry["city"] == city]
+        return price[0]
+
+    def get_cities(self):
+        data = self.get_rows()["prices"]
+        cities = [entry["iataCode"] for entry in data]
+        return cities

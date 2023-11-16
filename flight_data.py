@@ -19,7 +19,6 @@ class FlightData:
     #       times come formatted as "yyyy-mm-ddThh:mm:ss.000Z", 24h format
     #   get entry["price"]
     # get list of prices and codes from sheet
-    # if flight price lower, new min price replaced in price list
-    # after done, put new prices back into sheets w/ data_manager
+    # if flight price lower, put new prices back into sheets w/ data_manager
     # for each price update, send email
     pass

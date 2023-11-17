@@ -2,9 +2,10 @@
 # NotificationManager classes to achieve the program requirements.
 from data_manager import DataManager
 from flight_search import FlightSearch
+from flight_data import FlightData
 
 data = DataManager()
-data.fill_codes()
+# data.fill_codes()
 
 city = input("What city are you in right now? ")
 state = input("What state are you in right now? ")
@@ -18,4 +19,7 @@ km = int(input("In what kilometer radius do you want to search for airports? "))
 from_list = [lat, lon, km]
 
 city_list = data.get_cities()
-print(f.get_flights(start=from_list, city_list=city_list))
+flight_list = f.get_flights(start=from_list, city_list=city_list)
+
+f_data = FlightData(flight_list=flight_list, city_list=city_list)
+f_data.organize_data()

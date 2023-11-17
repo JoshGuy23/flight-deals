@@ -16,6 +16,7 @@ class DataManager:
             response = requests.get(url=self.endpoint, headers=self.header)
             response.raise_for_status()
         except requests.HTTPError:
+            print(response.reason)
             pass
         else:
             data = response.json()
@@ -42,7 +43,7 @@ class DataManager:
 
     def get_price(self, city):
         data = self.get_rows()["prices"]
-        price = [entry["lowestPrice"] for entry in data if entry["city"] == city]
+        price = [entry["lowestPrice"] for entry in data if entry["iataCode"] == city]
         return price[0]
 
     def get_cities(self):

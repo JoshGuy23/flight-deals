@@ -33,6 +33,15 @@ class FlightData:
                 # information and send an email.
                 if min_price < current_price:
                     sender = NotificationManager()
+                    route_list = cheapest_flight["route"]
+                    stopovers = 0
+                    stop_list = ""
+
+                    if len(route_list) > 1:
+                        stopovers += len(route_list) - 1
+                        for route in route_list:
+                            if route != route_list[-1]:
+                                stop_list += route["cityTo"] + ","
 
                     from_code = cheapest_flight["cityCodeFrom"]
                     from_city = cheapest_flight["cityFrom"]
@@ -44,7 +53,8 @@ class FlightData:
                     arrival_time = cheapest_flight["local_arrival"].split("T")[0]
 
                     sender.send_email(price=min_price, from_city=from_city, fc_code=from_code, to_city=to_city,
-                                      tc_code=to_code, departure=departure_time, arrival=arrival_time)
+                                      tc_code=to_code, departure=departure_time, arrival=arrival_time,
+                                      stop_over=stopovers, via_city=stop_list)
 
             i += 1
 

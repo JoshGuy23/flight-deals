@@ -62,6 +62,7 @@ class DataManager:
         return cities
 
     def get_emails(self):
+        # Get a list of emails from the Google Sheet.
         data = self.get_rows(self.user_endpoint)["users"]
         email_list = [entry["email"] for entry in data]
         return email_list

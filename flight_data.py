@@ -37,6 +37,7 @@ class FlightData:
                     stopovers = 0
                     stop_list = ""
 
+                    # If the route has stopovers, get the number of stopovers and get the stop-over cities.
                     if len(route_list) > 1:
                         stopovers += len(route_list) - 1
                         for route in route_list:

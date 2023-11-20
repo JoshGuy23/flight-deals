@@ -1,5 +1,6 @@
 import smtplib
 import os
+from data_manager import DataManager
 
 
 class NotificationManager:
@@ -8,7 +9,8 @@ class NotificationManager:
         # Initializes the class with the sending email & password and the user to receive the email.
         self.sender = "dwdeathwolf@gmail.com"
         self.password = os.environ["APP_PASS"]
-        self.receiver = "jhecker2001@gmail.com"
+        manager = DataManager()
+        self.email_list = manager.get_emails()
 
     def send_email(self, price, from_city, fc_code, to_city, tc_code, departure, arrival, stop_over, via_city):
         # Sends an email to the user.
@@ -25,13 +27,14 @@ class NotificationManager:
         else:
             stop_msg = ""
 
-        with smtplib.SMTP(host="smtp.gmail.com", port=587) as connection:
-            connection.starttls()
-            connection.login(user=self.sender, password=self.password)
-            connection.sendmail(
-                from_addr=self.sender,
-                to_addrs=self.receiver,
-                msg=f"Subject:Low price alert!\n\n"
-                    f"Only {price} euros to fly from {from_city}-{fc_code} to {to_city}-{tc_code},"
-                    f" from {departure} to {arrival}.{stop_msg}"
-            )
+        for receiver in self.email_list:
+            with smtplib.SMTP(host="smtp.gmail.com", port=587) as connection:
+                connection.starttls()
+                connection.login(user=self.sender, password=self.password)
+                connection.sendmail(
+                    from_addr=self.sender,
+                    to_addrs=receiver,
+                    msg=f"Subject:Low price alert!\n\n"
+                        f"Only {price} euros to fly from {from_city}-{fc_code} to {to_city}-{tc_code},"
+                        f" from {departure} to {arrival}.{stop_msg}"
+                )
